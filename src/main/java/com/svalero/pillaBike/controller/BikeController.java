@@ -65,7 +65,7 @@ public class BikeController {
         return ResponseEntity.ok(bike); //devuelvo la respuesta con el book
     }
 
-    //Excepción 404: Book not found
+    //Excepción 404: Bike not found
     @ExceptionHandler(BikeNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleBikeNotFoundException(BikeNotFoundException bnfe) {
         logger.error((bnfe.getMessage()), bnfe); //traza de log
