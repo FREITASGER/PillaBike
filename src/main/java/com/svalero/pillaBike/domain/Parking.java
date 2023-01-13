@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -20,10 +21,11 @@ public class Parking {
     private long id;
 
     @Column
+    @NotNull
     private String name;
 
     @Column
-    private String ciudad;
+    private String city;
 
     @Column
     private String direction;

@@ -2,6 +2,7 @@ package com.svalero.pillaBike.controller;
 
 import com.svalero.pillaBike.domain.Parking;
 import com.svalero.pillaBike.domain.Repair;
+import com.svalero.pillaBike.exception.BikeNotFoundException;
 import com.svalero.pillaBike.exception.ErrorMessage;
 import com.svalero.pillaBike.exception.ParkingNotFoundException;
 import com.svalero.pillaBike.exception.RepairNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +30,12 @@ public class RepairController {
     private final Logger logger = LoggerFactory.getLogger(RepairController.class); //Creamos el objeto capaz de pintar las trazas en el log y lo asociamos a la clase que queremos controlar
 
     //añadir
-    @PostMapping("/repairs")
-    public ResponseEntity<Repair> addRepair(@RequestBody Repair repair) {
+    @PostMapping("/bike/{bikeId}/repairs")
+    public ResponseEntity<Repair> addRepair(@Valid @PathVariable long bikeId, @RequestBody Repair repair) throws BikeNotFoundException {
         logger.debug("begin addRepair");
-        Repair newRepair = repairService.addRepair(repair);
+        Repair newRepair = repairService.addRepair(repair, bikeId);
         logger.debug("end addRepair");
-        return ResponseEntity.status(HttpStatus.CREATED).body(newRepair);
+        return new ResponseEntity<>(newRepair, HttpStatus.CREATED);
     }
 
     //borrar

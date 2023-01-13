@@ -1,7 +1,10 @@
 package com.svalero.pillaBike.service;
 
+import com.svalero.pillaBike.domain.Bike;
 import com.svalero.pillaBike.domain.Repair;
+import com.svalero.pillaBike.exception.BikeNotFoundException;
 import com.svalero.pillaBike.exception.RepairNotFoundException;
+import com.svalero.pillaBike.repository.BikeRepository;
 import com.svalero.pillaBike.repository.RepairRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +19,19 @@ public class RepairServiceImpl implements RepairService {
     RepairRepository repairRepository; //conexion a BBDD
 
     @Autowired
+    BikeRepository bikeRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     //añadir
     @Override
-    public Repair addRepair(Repair repair) {
+    public Repair addRepair(Repair repair, long bikeId) throws BikeNotFoundException{
+
+        Bike bike = bikeRepository.findById(bikeId)
+                .orElseThrow(BikeNotFoundException::new);
+        repair.setRepairBikes(bike);
+
         return repairRepository.save(repair);
     }
 

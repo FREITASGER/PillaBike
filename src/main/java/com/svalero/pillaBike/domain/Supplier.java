@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Data
@@ -23,6 +24,7 @@ public class Supplier {
     private String name;
 
     @Column
+    @Email
     private String email;
 
     @Column

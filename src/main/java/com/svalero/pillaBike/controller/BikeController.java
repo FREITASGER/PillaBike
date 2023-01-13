@@ -1,9 +1,15 @@
 package com.svalero.pillaBike.controller;
 
 import com.svalero.pillaBike.domain.Bike;
+import com.svalero.pillaBike.domain.Parking;
+import com.svalero.pillaBike.domain.Supplier;
 import com.svalero.pillaBike.exception.BikeNotFoundException;
 import com.svalero.pillaBike.exception.ErrorMessage;
+import com.svalero.pillaBike.exception.ParkingNotFoundException;
+import com.svalero.pillaBike.exception.SupplierNotFoundException;
 import com.svalero.pillaBike.service.BikeService;
+import com.svalero.pillaBike.service.ParkingService;
+import com.svalero.pillaBike.service.SupplierService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +19,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +30,23 @@ public class BikeController {
     @Autowired
     BikeService bikeService;
 
+    @Autowired
+    ParkingService parkingService;
+
+    @Autowired
+    SupplierService supplierService;
+
     private final Logger logger = LoggerFactory.getLogger(BikeController.class); //Creamos el objeto capaz de pintar las trazas en el log y lo asociamos a la clase que queremos controlar
 
     //añadir
-    @PostMapping("/bikes")
-    public ResponseEntity<Bike> addBike(@RequestBody Bike bike) {
+    @PostMapping("/bikes/{supplierId}/{parkingId}")
+    public ResponseEntity<Bike> addBike(@Valid @PathVariable("supplierId") long supplierId, @PathVariable("parkingId") long parkingId,@RequestBody Bike bike) throws SupplierNotFoundException, ParkingNotFoundException {
         logger.debug("begin addBike");
-        Bike newBike = bikeService.addBike(bike);
+        Bike newBike = bikeService.addBike(bike, supplierId, parkingId);
         logger.debug("end addBike");
-        return ResponseEntity.status(HttpStatus.CREATED).body(newBike);
+        return new ResponseEntity<>(newBike, HttpStatus.CREATED);
     }
+
 
     //borrar bike
     @DeleteMapping("/bikes/{id}")

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -20,6 +21,7 @@ public class Bike {
     private long id;
 
     @Column
+    @NotNull
     private String capacity;
 
     @Column
@@ -29,7 +31,7 @@ public class Bike {
     private String description;
 
     @Column
-    private float precio;
+    private float price;
 
     @ManyToOne
     @JoinColumn(name = "parking_id")
