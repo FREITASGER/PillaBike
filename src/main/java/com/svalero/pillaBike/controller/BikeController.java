@@ -87,6 +87,20 @@ public class BikeController {
         return new ResponseEntity(errorMessage, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(SupplierNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleSupplierNotFoundException(SupplierNotFoundException snfe) {
+        logger.error((snfe.getMessage()), snfe); //traza de log
+        ErrorMessage errorMessage = new ErrorMessage(404, snfe.getMessage());
+        return new ResponseEntity(errorMessage, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ParkingNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleParkingNotFoundException(ParkingNotFoundException pnfe) {
+        logger.error((pnfe.getMessage()), pnfe); //traza de log
+        ErrorMessage errorMessage = new ErrorMessage(404, pnfe.getMessage());
+        return new ResponseEntity(errorMessage, HttpStatus.NOT_FOUND);
+    }
+
     //Excetion 400: Bad request
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> handleBadRequestException(MethodArgumentNotValidException manve) {

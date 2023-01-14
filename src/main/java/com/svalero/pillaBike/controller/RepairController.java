@@ -77,6 +77,13 @@ public class RepairController {
         return new ResponseEntity(errorMessage, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(BikeNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleBikeNotFoundException(BikeNotFoundException bnfe) {
+        logger.error((bnfe.getMessage()), bnfe); //traza de log
+        ErrorMessage errorMessage = new ErrorMessage(404, bnfe.getMessage());
+        return new ResponseEntity(errorMessage, HttpStatus.NOT_FOUND);
+    }
+
     //Excetion 400: Bad request
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> handleBadRequestException(MethodArgumentNotValidException manve) {
