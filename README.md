@@ -1,5 +1,5 @@
 # PillaBike
-Actividad Prácticas Presenciales de Joana y German.
+Actividad Prácticas Presenciales de la asigntura de Acceso a Datos. Joana y German.
 
 Se ha creado una API para de Bicicletas.
 Se han creado 5 clases aunque se trabaja solamente con 4.
